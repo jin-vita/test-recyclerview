@@ -15,6 +15,15 @@ class BasicAdapter(private var items: List<BasicObject> = listOf()) :
 
     lateinit var listener: Listener
 
+    fun setOnItemClickListener(callback: (item: BasicObject) -> Unit) {
+        listener = object : Listener {
+            override fun onItemClick(holder: ViewHolder, view: View, position: Int) {
+                if (position == -1) return
+                callback(items[position])
+            }
+        }
+    }
+
     inner class ViewHolder(private val binding: ItemBasicBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener { listener.onItemClick(this, it, adapterPosition) }

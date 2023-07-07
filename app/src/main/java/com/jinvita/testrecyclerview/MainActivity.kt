@@ -1,7 +1,6 @@
 package com.jinvita.testrecyclerview
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private fun initButton() = with(binding) {
         btnAdd.setOnClickListener { adapter.add(BasicObject(name = "추가", description = "추랑 가")) }
         btnSet1.setOnClickListener { adapter.update(dummy1) }
+
         btnSet2.setOnClickListener { adapter.update(dummy2) }
         btnClear.setOnClickListener { adapter.clear() }
     }
@@ -44,16 +44,8 @@ class MainActivity : AppCompatActivity() {
     private fun initAdapter() {
         binding.recyclerview.layoutManager = LinearLayoutManager(applicationContext)
         binding.recyclerview.adapter = adapter
-        adapter.listener = object : BasicAdapter.Listener {
-            override fun onItemClick(holder: BasicAdapter.ViewHolder, view: View, position: Int) {
-                if (position == -1) return
-                val item = adapter.getItem(position)
-                Toast.makeText(
-                    applicationContext,
-                    "${position + 1}번째 아이템 선택 : ${item.name}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        adapter.setOnItemClickListener {
+            Toast.makeText(applicationContext, "아이템 선택 : ${it.name}", Toast.LENGTH_SHORT).show()
         }
     }
 }
