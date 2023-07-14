@@ -17,10 +17,8 @@ class BasicAdapter(private val items: MutableList<BasicObject> = mutableListOf()
 
     fun setOnItemClickListener(callback: (item: BasicObject) -> Unit) {
         listener = object : Listener {
-            override fun onItemClick(holder: ViewHolder, view: View, position: Int) {
-                if (position == -1) return
-                callback(items[position])
-            }
+            override fun onItemClick(holder: ViewHolder, view: View, position: Int) =
+                position.let { if (it != -1) callback(items[it]) }
         }
     }
 
