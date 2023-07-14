@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jinvita.testrecyclerview.databinding.ItemBasicBinding
 
-class BasicAdapter(private var items: List<BasicObject> = listOf()) :
+class BasicAdapter(private val items: MutableList<BasicObject> = mutableListOf()) :
     RecyclerView.Adapter<BasicAdapter.ViewHolder>() {
     interface Listener {
         fun onItemClick(holder: ViewHolder, view: View, position: Int)
@@ -32,22 +32,17 @@ class BasicAdapter(private var items: List<BasicObject> = listOf()) :
         fun setItem(item: BasicObject) = with(binding) {
             textTitle.text = item.name
             textDescription.text = item.description
-            btnRemove.setOnClickListener { remove(adapterPosition) }
+            btnRemove.setOnClickListener { adapterPosition.let { if (it != -1) remove(it) } }
         }
     }
 
     fun add(item: BasicObject) {
-        val list = items.toMutableList()
-        list.add(item)
-        items = list
+        items.add(item)
         notifyItemInserted(items.lastIndex)
     }
 
     fun remove(index: Int) {
-        if (index == -1 || items.isEmpty()) return
-        val list = items.toMutableList()
-        list.removeAt(index)
-        items = list
+        items.removeAt(index)
         notifyItemRemoved(index)
     }
 
@@ -55,7 +50,8 @@ class BasicAdapter(private var items: List<BasicObject> = listOf()) :
 
     @SuppressLint("NotifyDataSetChanged")
     fun update(newDataList: List<BasicObject>) {
-        items = newDataList
+        items.clear()
+        newDataList.forEach { items.add(it.copy()) }
         notifyDataSetChanged()
     }
 
