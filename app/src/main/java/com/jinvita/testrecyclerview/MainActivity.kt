@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     private fun initButton() = with(binding) {
         btnAdd.setOnClickListener { adapter.add(BasicObject(name = "추가", description = "추랑 가")) }
         btnSet1.setOnClickListener { adapter.update(dummy1) }
-
         btnSet2.setOnClickListener { adapter.update(dummy2) }
         btnClear.setOnClickListener { adapter.clear() }
     }
