@@ -9,6 +9,13 @@ import com.jinvita.testrecyclerview.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val adapter by lazy { BasicAdapter() }
+    private lateinit var toast: Toast
+    fun showToast(msg: String) {
+        if (::toast.isInitialized) toast.cancel()
+        toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
+        toast.show()
+    }
+
 
     private val dummy1 = listOf(
         BasicObject(name = "철수", description = "철이랑 수"),
@@ -44,8 +51,6 @@ class MainActivity : AppCompatActivity() {
     private fun initAdapter() {
         binding.recyclerview.layoutManager = LinearLayoutManager(applicationContext)
         binding.recyclerview.adapter = adapter
-        adapter.setOnItemClickListener {
-            Toast.makeText(applicationContext, "아이템 선택 : ${it.name}", Toast.LENGTH_SHORT).show()
-        }
+        adapter.setOnItemClickListener { showToast("아이템 선택 : ${it.name}") }
     }
 }
