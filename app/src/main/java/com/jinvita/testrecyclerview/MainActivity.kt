@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val adapter by lazy { BasicAdapter() }
     private lateinit var toast: Toast
-    fun showToast(msg: String) {
+    private fun showToast(msg: String) {
         if (::toast.isInitialized) toast.cancel()
         toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
         toast.show()
